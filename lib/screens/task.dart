@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tasko/screens/home.dart';
+import 'package:tasko/models/todo.dart';
+import 'package:tasko/widgets/todo/addNewTodo.dart';
 import 'package:tasko/widgets/todoWidget.dart';
 
 class TaskScreen extends StatefulWidget {
@@ -8,7 +9,12 @@ class TaskScreen extends StatefulWidget {
 }
 
 class TaskScreenState extends State<TaskScreen> {
-  bool? value = false;
+  List<Todo> todos = [];
+
+  addTodo(value) {
+    setState(() => todos.add(Todo(title: value, isDone: false)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -31,9 +37,7 @@ class TaskScreenState extends State<TaskScreen> {
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: "عنوان کار شما",
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(style: BorderStyle.solid),
-                            ),
+                            border: InputBorder.none,
                           ),
                           style: TextStyle(
                               fontSize: 24,
@@ -44,14 +48,45 @@ class TaskScreenState extends State<TaskScreen> {
                     ),
                   ],
                 ),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.only(top: 20),
-                    children: [
-                      TodoWidget(title: "first work",isDone: true,),
-                      TodoWidget(title: "second work",isDone: false,)
-                    ],
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "توضیحات کار خود را وارد کنید",
+                    border: InputBorder.none,
                   ),
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                  ),
+                  minLines: 1,
+                  maxLines: 3,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: todos.length,
+                    itemBuilder: (context, index) => TodoWidget(
+                      title: todos[index].title,
+                      isDone: false,
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 15,
+                      height: 15,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: AddNewTodo(addTodo: addTodo),
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),
