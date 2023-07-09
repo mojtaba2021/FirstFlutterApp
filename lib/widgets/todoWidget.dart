@@ -1,5 +1,7 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TodoWidget extends StatelessWidget {
   String title;
   bool isDone;
@@ -9,7 +11,7 @@ class TodoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      
       child: Row(
         children: [
           Container(
